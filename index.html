@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f6fa">
+    <title>Credit Risk Assessment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/config.js" defer></script>
+    <script src="/script.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="RiskLens home">
+        <span class="brand-mark" aria-hidden="true">R</span>
+        <span>risk<span class="brand-light">lens</span></span>
+      </a>
+      <div class="topbar-note"><span class="status-dot"></span> Credit risk assessment</div>
+    </header>
+
+    <main class="layout">
+      <section class="intro">
+        <p class="eyebrow">CREDIT ANALYSIS <span></span> MODEL-POWERED</p>
+        <h1>A clearer view<br>of credit risk.</h1>
+        <p class="intro-copy">Enter applicant and loan details to estimate the likelihood of loan default.</p>
+        <div class="privacy-note">
+          <span class="shield" aria-hidden="true">✓</span>
+          <span><strong>Your data stays here</strong><br>Details are used only to generate this estimate.</span>
+        </div>
+        <div class="intro-foot">
+          <span class="foot-line"></span>
+          <span>DECISIONS, MADE WITH MORE CONTEXT</span>
+        </div>
+      </section>
+
+      <section class="assessment-card" aria-labelledby="form-title">
+        <div class="card-heading">
+          <div>
+            <p class="section-kicker">NEW ASSESSMENT</p>
+            <h2 id="form-title">Applicant profile</h2>
+          </div>
+          <span class="step-badge">01 <span>/ 01</span></span>
+        </div>
+
+        <form id="assessment-form">
+          <fieldset>
+            <legend><span class="legend-number">01</span> Applicant details</legend>
+            <div class="field-grid">
+              <label class="field">
+                <span>Age</span>
+                <span class="input-wrap"><input name="person_age" type="number" min="18" max="120" step="1" placeholder="e.g. 32" required><span class="unit">years</span></span>
+              </label>
+              <label class="field">
+                <span>Annual income</span>
+                <span class="input-wrap"><span class="prefix">$</span><input name="person_income" type="number" min="1" step="100" placeholder="e.g. 65,000" required></span>
+              </label>
+              <label class="field">
+                <span>Home ownership</span>
+                <select name="person_home_ownership" required disabled><option value="">Loading options…</option></select>
+              </label>
+              <label class="field">
+                <span>Employment length</span>
+                <span class="input-wrap"><input name="person_emp_length" type="number" min="0" step="0.5" placeholder="e.g. 5" required><span class="unit">years</span></span>
+              </label>
+              <label class="field">
+                <span>Credit history length</span>
+                <span class="input-wrap"><input name="cb_person_cred_hist_length" type="number" min="0" step="1" placeholder="e.g. 8" required><span class="unit">years</span></span>
+              </label>
+              <label class="field">
+                <span>Previous default on file</span>
+                <select name="cb_person_default_on_file" required disabled><option value="">Loading options…</option></select>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend><span class="legend-number">02</span> Loan details</legend>
+            <div class="field-grid">
+              <label class="field">
+                <span>Loan purpose</span>
+                <select name="loan_intent" required disabled><option value="">Loading options…</option></select>
+              </label>
+              <label class="field">
+                <span>Loan grade</span>
+                <select name="loan_grade" required disabled><option value="">Loading options…</option></select>
+              </label>
+              <label class="field">
+                <span>Loan amount</span>
+                <span class="input-wrap"><span class="prefix">$</span><input name="loan_amnt" type="number" min="1" step="100" placeholder="e.g. 12,000" required></span>
+              </label>
+              <label class="field">
+                <span>Interest rate</span>
+                <span class="input-wrap"><input name="loan_int_rate" type="number" min="0" max="100" step="0.01" placeholder="e.g. 10.5" required><span class="unit">%</span></span>
+              </label>
+              <label class="field field-wide">
+                <span>Loan-to-income ratio <span class="auto-tag">CALCULATED</span></span>
+                <span class="input-wrap"><input id="loan-percent-income" type="text" value="Enter income and loan amount" readonly aria-live="polite"><span class="unit">of income</span></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="form-footer">
+            <p>Estimates are informational and are not a lending decision.</p>
+            <button id="submit-button" type="submit" disabled>
+              <span>Assess risk</span><span class="button-arrow" aria-hidden="true">→</span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section id="result-card" class="result-card" aria-live="polite" hidden>
+        <div class="result-topline">
+          <span class="result-icon" aria-hidden="true">↗</span>
+          <span class="section-kicker">ASSESSMENT RESULT</span>
+        </div>
+        <h2 id="result-title"></h2>
+        <p id="result-description"></p>
+        <div class="probability-row">
+          <span>Estimated default probability</span>
+          <strong id="probability-value"></strong>
+        </div>
+        <div class="probability-track" aria-hidden="true"><span id="probability-bar"></span></div>
+        <p class="result-disclaimer">This estimate is generated by a machine-learning model and should not be used as the sole basis for a credit decision.</p>
+      </section>
+
+      <p id="error-message" class="error-message" role="alert" hidden></p>
+    </main>
+
+    <footer class="site-footer">
+      <span>RISK<span class="footer-light">LENS</span> <span class="copyright">© 2026</span></span>
+      <span>MODEL ESTIMATE · NOT FINANCIAL ADVICE</span>
+    </footer>
+  </body>
+</html>
